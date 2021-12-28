@@ -1,4 +1,4 @@
-FROM php:7.3.34-fpm
+FROM php:7.3.33-fpm
 
 RUN apt update
 
