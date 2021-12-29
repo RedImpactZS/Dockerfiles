@@ -16,7 +16,12 @@ jobs:
     - name: Log into registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
     
-    - name: Build the Docker image
+    - name: Build and push the php-fpm
       run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/php-fpm -f php-fpm .
+          docker build -t ghcr.io/${{ github.repository_owner }}/php-fpm php-fpm
           docker push ghcr.io/${{ github.repository_owner }}/php-fpm
+
+    - name: Build and push the demobot
+      run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/demobot demobot
+          docker push ghcr.io/${{ github.repository_owner }}/demobot
