@@ -1,0 +1,83 @@
+{
+  "_from": "luamin@",
+  "_id": "luamin@1.0.4",
+  "_inBundle": false,
+  "_integrity": "sha1-lEUptY/G+k0x6s4uA1PUEhDw49M=",
+  "_location": "/luamin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "luamin",
+    "name": "luamin",
+    "escapedName": "luamin",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/luamin/-/luamin-1.0.4.tgz",
+  "_shasum": "2c4cdbd1796f0b35459537702abb0cdf871201ab",
+  "_spec": "luamin",
+  "_where": "C:\\Users\\Administrator",
+  "author": {
+    "name": "Mathias Bynens",
+    "url": "https://mathiasbynens.be/"
+  },
+  "bin": {
+    "luamin": "bin/luamin"
+  },
+  "bugs": {
+    "url": "https://github.com/mathiasbynens/luamin/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "luaparse": "^0.2.1"
+  },
+  "deprecated": false,
+  "description": "A Lua minifier written in JavaScript",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-shell": "^1.1.2",
+    "istanbul": "^0.4.2",
+    "qunit-extras": "^1.4.5",
+    "qunitjs": "~1.11.0",
+    "requirejs": "^2.1.22"
+  },
+  "directories": {
+    "bin": "bin",
+    "man": "man",
+    "test": "tests"
+  },
+  "files": [
+    "LICENSE-MIT.txt",
+    "luamin.js",
+    "bin/",
+    "man/"
+  ],
+  "homepage": "https://mths.be/luamin",
+  "keywords": [
+    "lua",
+    "minify",
+    "minifier"
+  ],
+  "license": "MIT",
+  "main": "luamin.js",
+  "man": [
+    "C:\\Users\\Administrator\\node_modules\\luamin\\man\\luamin.1"
+  ],
+  "name": "luamin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathiasbynens/luamin.git"
+  },
+  "scripts": {
+    "test": "node tests/tests.js"
+  },
+  "version": "1.0.4",
+  "readme": "# luamin, a Lua minifier written in JavaScript\n\n[![Build status](https://travis-ci.org/mathiasbynens/luamin.svg?branch=master)](https://travis-ci.org/mathiasbynens/luamin) [![Dependency status](https://gemnasium.com/mathiasbynens/luamin.svg)](https://gemnasium.com/mathiasbynens/luamin)\n\nluamin uses the excellent [luaparse](https://oxyc.github.io/luaparse/) library to parse Lua code into an Abstract Syntax Tree. Based on that AST, luamin then generates a (hopefully) more compact yet semantically equivalent Lua program. [Here’s an online demo.](https://mothereff.in/lua-minifier)\n\nluamin was inspired by the [LuaMinify](https://github.com/stravant/LuaMinify) and [Esmangle](https://github.com/Constellation/esmangle) projects.\n\nFeel free to fork if you see possible improvements!\n\n## Installation and usage\n\nVia [npm](https://www.npmjs.com/):\n\n```bash\nnpm install luamin\n```\n\nVia [Bower](http://bower.io/):\n\n```bash\nbower install luamin\n```\n\nVia [Component](https://github.com/component/component):\n\n```bash\ncomponent install mathiasbynens/luamin\n```\n\nIn a browser:\n\n```html\n<script src=\"luamin.js\"></script>\n```\n\nIn [Narwhal](http://narwhaljs.org/), [Node.js](https://nodejs.org/), and [RingoJS](http://ringojs.org/):\n\n```js\nvar luamin = require('luamin');\n```\n\nIn [Rhino](http://www.mozilla.org/rhino/):\n\n```js\nload('luamin.js');\n```\n\nUsing an AMD loader like [RequireJS](http://requirejs.org/):\n\n```js\nrequire(\n  {\n    'paths': {\n      'luamin': 'path/to/luamin'\n    }\n  },\n  ['luamin'],\n  function(luamin) {\n    console.log(luamin);\n  }\n);\n```\n\nUsage example:\n\n```js\nvar luaCode = 'a = ((1 + 2) - 3) * (4 / (5 ^ 6)) -- foo';\nluamin.minify(luaCode); // 'a=(1+2-3)*4/5^6'\n\n// `minify` also accepts luaparse-compatible ASTs as its argument:\nvar ast = luaparse.parse(luaCode, { 'scope': true });\nluamin.minify(ast); // 'a=(1+2-3)*4/5^6'\n```\n\n### Using the `luamin` binary\n\nTo use the `luamin` binary in your shell, simply install luamin globally using npm:\n\n```bash\nnpm install -g luamin\n```\n\nAfter that you will be able to minify Lua scripts from the command line:\n\n```bash\n$ luamin -c 'a = ((1 + 2) - 3) * (4 / (5 ^ 6))'\na=(1+2-3)*4/5^6\n$ luamin -f foo.lua\na=(1+2-3)*4/5^6\n```\n\nSee `luamin --help` for the full list of options.\n\n## Support\n\nluamin has been tested in at least Chrome 25-48, Firefox 3-44, Safari 4-9, Opera 10-35, IE 6-11, Edge, Node.js v0.10.0–v5, Narwhal 0.3.2, RingoJS 0.8-0.11, PhantomJS 1.9.0, and Rhino 1.7.6.\n\n## Unit tests & code coverage\n\nAfter cloning this repository, run `npm install` to install the dependencies needed for luamin development and testing. You may want to install Istanbul _globally_ using `npm install istanbul -g`.\n\nOnce that’s done, you can run the unit tests in Node using `npm test` or `node tests/tests.js`. To run the tests in Rhino, Ringo, Narwhal, and web browsers as well, use `grunt test`.\n\nTo generate [the code coverage report](http://rawgithub.com/mathiasbynens/luamin/master/coverage/luamin/luamin.js.html), use `grunt cover`.\n\n## Author\n\n| [![twitter/mathias](https://gravatar.com/avatar/24e08a9ea84deb17ae121074d0f17125?s=70)](https://twitter.com/mathias \"Follow @mathias on Twitter\") |\n|---|\n| [Mathias Bynens](https://mathiasbynens.be/) |\n\n## License\n\nluamin is available under the [MIT](https://mths.be/mit) license.\n",
+  "readmeFilename": "README.md"
+}

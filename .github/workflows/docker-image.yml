@@ -23,6 +23,8 @@ jobs:
             - 'demobot/**'
           devsource:
             - 'devsource/**'
+          updater:
+            - 'updater/**'
     
     - name: Log into registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
@@ -44,3 +46,9 @@ jobs:
       run: |
           docker build -t ghcr.io/${{ github.repository_owner }}/devsource devsource
           docker push ghcr.io/${{ github.repository_owner }}/devsource
+
+    - if: steps.changes.outputs.updater == 'true'
+      name: Build and push the updater
+      run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/updater updater
+          docker push ghcr.io/${{ github.repository_owner }}/updater
