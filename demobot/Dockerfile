@@ -3,7 +3,7 @@
 # Environment: Source Engine
 # Minimum Panel Version: 0.6.0
 # ----------------------------------
-FROM        ubuntu:18.04
+FROM        ubuntu:22.10
 
 LABEL       author="Pterodactyl Software" maintainer="support@pterodactyl.io"
 
