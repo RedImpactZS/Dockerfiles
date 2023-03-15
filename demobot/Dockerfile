@@ -12,7 +12,7 @@ ENV         DEBIAN_FRONTEND noninteractive
 RUN         dpkg --add-architecture i386 \
             && apt-get update \
             && apt-get upgrade -y \
-            && apt-get install -y ca-certificates zenity wget dbus-x11 locales tar curl gcc g++ lib32gcc1 libgcc1 libcurl4-gnutls-dev:i386 libssl1.0.0:i386 libcurl4:i386 lib32tinfo5 libtinfo5:i386 lib32z1 lib32stdc++6 libncurses5:i386 libcurl3-gnutls:i386 iproute2 gdb libsdl1.2debian libfontconfig telnet net-tools netcat xvfb psmisc zip unzip \
+            && apt-get install -y ca-certificates zenity wget dbus-x11 locales tar curl gcc g++ lib32gcc-s1 libgcc1 libcurl4-gnutls-dev:i386 libssl1.0.0:i386 libcurl4:i386 lib32tinfo5 libtinfo5:i386 lib32z1 lib32stdc++6 libncurses5:i386 libcurl3-gnutls:i386 iproute2 gdb libsdl1.2debian libfontconfig telnet net-tools netcat xvfb psmisc zip unzip \
             && useradd -m -G video -d /home/container container
 
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
