@@ -16,7 +16,6 @@ RUN         dpkg --add-architecture i386 \
             && useradd -m -G video -d /home/container container
 
 RUN chmod u+s "/usr/bin/bwrap"
-
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
