@@ -34,7 +34,7 @@ jobs:
 
     - id: read-docker-image-identifiers
       name: Read Docker Image Identifiers
-      run: echo ::set-env name=REPOSITORY_OWNER::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')
+      run: echo "REPOSITORY_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
     
     - if: steps.changes.outputs.php-fpm == 'true'
       name: Build and push the php-fpm
