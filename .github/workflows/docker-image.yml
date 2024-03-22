@@ -31,27 +31,31 @@ jobs:
     
     - name: Log into registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+    - id: read-docker-image-identifiers
+      name: Read Docker Image Identifiers
+      run: echo ::set-env name=REPOSITORY_OWNER::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')
     
     - if: steps.changes.outputs.php-fpm == 'true'
       name: Build and push the php-fpm
       run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/php-fpm php-fpm
-          docker push ghcr.io/${{ github.repository_owner }}/php-fpm
+          docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/php-fpm php-fpm
+          docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/php-fpm
 
     - if: steps.changes.outputs.demobot == 'true'
       name: Build and push the demobot
       run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/demobot demobot
-          docker push ghcr.io/${{ github.repository_owner }}/demobot
+          docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/demobot demobot
+          docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/demobot
           
     - if: steps.changes.outputs.devsource == 'true'
       name: Build and push the devsource
       run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/devsource devsource
-          docker push ghcr.io/${{ github.repository_owner }}/devsource
+          docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/devsource devsource
+          docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/devsource
 
     - if: steps.changes.outputs.updater == 'true'
       name: Build and push the updater
       run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/updater updater
-          docker push ghcr.io/${{ github.repository_owner }}/updater
+          docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/updater updater
+          docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/updater
