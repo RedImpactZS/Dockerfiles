@@ -47,6 +47,18 @@ RUN set -eux; \
 		libc6:i386 \
 # installing libfontconfig1 from Ubuntu stops some runtime-related fontconfig errors/warnings (https://github.com/ValveSoftware/steam-for-linux/issues/3307#issuecomment-506650268)
 		libfontconfig1:i386 \
+                libxtst6:i386 \
+		libXrandr2:i386 \
+                libxi6:i386 \
+		libglib2.0-0:i386 \
+                libgtk-x11-2.0:i386 \
+		libpipewire-0.3-0:i386 \
+                libpulse0:i386 \
+		libgdk-pixbuf2.0-0:i386 \
+                libxcb-res0:i386 \
+		libva2:i386 \
+                libvdpau1:i386 \
+		libbz2-1.0:i386 \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
