@@ -61,7 +61,7 @@ else
     echo -e "Not updating game server as auto update was set to 0. Starting Server"
 fi
 
-[ "${XVFB}" -eq "1" ] && Xfvb &
+[ "${XVFB}" -eq "1" ] && Xvfb &
 
 if [ ! -d "$WINEPREFIX" ]; then
     echo "Installing ${WINETRICKS_INSTALL}, delete $WINEPREFIX to trigger this process again"
