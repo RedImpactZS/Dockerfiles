@@ -28,7 +28,9 @@ jobs:
             - 'devsource/**'
           updater:
             - 'updater/**'
-    
+          sbox:
+            - 'sbox/**'
+   
     - name: Log into registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
