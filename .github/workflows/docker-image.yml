@@ -61,3 +61,9 @@ jobs:
       run: |
           docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/updater updater
           docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/updater
+
+    - if: steps.changes.outputs.sbox == 'true'
+      name: Build and push the sbox
+      run: |
+          docker build -t ghcr.io/${{ env.REPOSITORY_OWNER }}/sbox sbox
+          docker push ghcr.io/${{ env.REPOSITORY_OWNER }}/sbox
