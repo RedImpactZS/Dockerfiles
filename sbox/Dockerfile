@@ -7,7 +7,11 @@ FROM        ghcr.io/parkervcp/yolks:wine_10
 ENV         WINEDLLOVERRIDES="mscoree=n"
 ENV         WINDOWS_INSTALL="1"
 ENV         SRCDS_APPID="1892930"
-ENV         WINETRICKS_INSTALL="dotnet9 dotnet48"
+ENV         WINETRICKS_INSTALL="dotnet10 dotnet48"
+
+# Install forked winetricks
+RUN         wget -q -O /usr/sbin/winetricks https://raw.githubusercontent.com/deinferno/winetricks/master/src/winetricks \
+            && chmod +x /usr/sbin/winetricks
 
 COPY        --chown=container:container ./entrypoint.sh /entrypoint.sh
 RUN         chmod +x /entrypoint.sh
