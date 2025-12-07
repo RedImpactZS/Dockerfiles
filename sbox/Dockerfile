@@ -9,6 +9,9 @@ ENV         WINDOWS_INSTALL="1"
 ENV         SRCDS_APPID="1892930"
 ENV         WINETRICKS_INSTALL="dotnet10 dotnet48"
 
+# Install git
+RUN             apt update && apt install --install-recommends git git-lfs -y
+
 # Install forked winetricks
 RUN         wget -q -O /usr/sbin/winetricks https://raw.githubusercontent.com/deinferno/winetricks/master/src/winetricks \
             && chmod +x /usr/sbin/winetricks
