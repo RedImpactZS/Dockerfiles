@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 #
 # Copyright (c) 2021 Matthew Penner
@@ -22,20 +22,16 @@
 # SOFTWARE.
 #
 
-# Wait for the container to fully initialize
-sleep 1
-
-# Default the TZ environment variable to UTC.
-TZ=${TZ:-UTC}
-export TZ
-
-# Set environment variable that holds the Internal Docker IP
-INTERNAL_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
-export INTERNAL_IP
-
 # Switch to the container's working directory
 cd /home/container || exit 1
 
+# Download steamcmd
+if [ ! -f "${HOME}/steamcmd/steamcmd.sh" ]; then
+    curl "http://media.steampowered.com/installer/steamcmd_linux.tar.gz" --output "steamcmd.tar.gz" --silent
+    mkdir -p "steamcmd"
+    tar -xzf "steamcmd.tar.gz" -C "steamcmd"
+    rm "steamcmd.tar.gz"
+fi
 
 ## just in case someone removed the defaults.
 if [ "${STEAM_USER}" == "" ]; then
@@ -56,23 +52,42 @@ if [ -z ${AUTO_UPDATE} ] || [ "${AUTO_UPDATE}" == "1" ]; then
     else
         echo -e "No appid set. Starting Server"
     fi
-
 else
     echo -e "Not updating game server as auto update was set to 0. Starting Server"
 fi
 
-[ "${XVFB}" -eq "1" ] && Xvfb &
+# Alias steamcmd's steamclient.so for native steam networking to work
+mkdir -p "${HOME}/.steam"
+ln -s "${HOME}/steamcmd/linux32" "${HOME}/.steam/sdk32" &> /dev/null || true
+ln -s "${HOME}/steamcmd/linux64" "${HOME}/.steam/sdk64" &> /dev/null || true
+ln -s "${HOME}/.steam/sdk32/steamclient.so" "${HOME}/.steam/sdk32/steamservice.so" &> /dev/null || true
+ln -s "${HOME}/.steam/sdk64/steamclient.so" "${HOME}/.steam/sdk64/steamservice.so" &> /dev/null || true
 
-if [ ! -d "$WINEPREFIX" ]; then
-    echo "Installing ${WINETRICKS_INSTALL}, delete $WINEPREFIX to trigger this process again"
+[ "${XVFB}" -eq "1" ] && Xvfb "${DISPLAY}" &
+
+if [ ! -d "${WINEPREFIX}" ]; then
+    echo "Installing ${WINETRICKS_INSTALL}, delete ${WINEPREFIX} to trigger this process again"
     for i in $WINETRICKS_INSTALL; do
         winetricks -q $i
     done
 fi
 
-# Replace Startup Variables
-MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
-echo -e ":/home/container$ ${MODIFIED_STARTUP}"
+# Pterodactyl/Pelican run
+if [ -n "${STARTUP}" ]; then
+    # Default the TZ environment variable to UTC.
+    export TZ="${TZ:-UTC}"
 
-# Run the Server
-eval ${MODIFIED_STARTUP}
+    # Set environment variable that holds the Internal Docker IP
+    export INTERNAL_IP="$(ip route get 1 | awk '{print $(NF-2);exit}')"
+
+    # Replace Startup Variables
+    MODIFIED_STARTUP="$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')"
+    echo -e ":/home/container$ ${MODIFIED_STARTUP}"
+
+    # Run the Server
+    eval ${MODIFIED_STARTUP}
+
+# Basic run
+else
+    eval $@
+fi
